@@ -5,16 +5,18 @@
   
   <title>js深入之原型及原型链 | 前端小白羊</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一只web前端修仙的小白羊的学习感悟">
+  <meta name="description" content="###前言有关于原型及原型链方面的知识，总能听见身边学习玄学js的同学朋友说起，经过学习讶羽的博客，今天简单谈一下这方面的理解。 ###注：为了思路清晰，这里从构造函数并创建其对象、prototype、___proto___、constructor、实例与原型、原型的原型、原型链几方面来分析原型整体构思。首先看下面原型整体思维图，来逐步进行分析。 ###构造函数及创建对象先用构造函数创建对象: 1">
 <meta property="og:type" content="article">
 <meta property="og:title" content="js深入之原型及原型链">
 <meta property="og:url" content="http://yoursite.com/2017/09/24/js深入之原型及原型链/index.html">
 <meta property="og:site_name" content="前端小白羊">
-<meta property="og:description" content="一只web前端修仙的小白羊的学习感悟">
-<meta property="og:updated_time" content="2017-09-24T08:34:54.000Z">
+<meta property="og:description" content="###前言有关于原型及原型链方面的知识，总能听见身边学习玄学js的同学朋友说起，经过学习讶羽的博客，今天简单谈一下这方面的理解。 ###注：为了思路清晰，这里从构造函数并创建其对象、prototype、___proto___、constructor、实例与原型、原型的原型、原型链几方面来分析原型整体构思。首先看下面原型整体思维图，来逐步进行分析。 ###构造函数及创建对象先用构造函数创建对象: 1">
+<meta property="og:image" content="http://owu5yrdgy.bkt.clouddn.com/CCA9CC75-C468-41CA-824D-6A6C11A66370.png">
+<meta property="og:updated_time" content="2017-09-26T03:21:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="js深入之原型及原型链">
-<meta name="twitter:description" content="一只web前端修仙的小白羊的学习感悟">
+<meta name="twitter:description" content="###前言有关于原型及原型链方面的知识，总能听见身边学习玄学js的同学朋友说起，经过学习讶羽的博客，今天简单谈一下这方面的理解。 ###注：为了思路清晰，这里从构造函数并创建其对象、prototype、___proto___、constructor、实例与原型、原型的原型、原型链几方面来分析原型整体构思。首先看下面原型整体思维图，来逐步进行分析。 ###构造函数及创建对象先用构造函数创建对象: 1">
+<meta name="twitter:image" content="http://owu5yrdgy.bkt.clouddn.com/CCA9CC75-C468-41CA-824D-6A6C11A66370.png">
   
     <link rel="alternate" href="/atom.xml" title="前端小白羊" type="application/atom+xml">
   
@@ -93,7 +95,53 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>###前言<br>有关于原型及原型链方面的知识，总能听见身边学习玄学js的同学朋友说起，经过学习<a href="https://github.com/mqyqingfeng/Blog" target="_blank" rel="external">讶羽的博客</a>，今天简单谈一下这方面的理解。</p>
+<p>###注：<br>为了思路清晰，这里从<strong>构造函数并创建其对象、prototype、___proto___、constructor、实例与原型、原型的原型、原型链几方面</strong>来分析原型整体构思。<br>首先看下面原型整体思维图，来逐步进行分析。<br><img src="http://owu5yrdgy.bkt.clouddn.com/CCA9CC75-C468-41CA-824D-6A6C11A66370.png" alt=""></p>
+<p>###构造函数及创建对象<br>先用构造函数创建对象:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>) </span>&#123;</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> Person();</div><div class="line">person.name = <span class="string">'Kevin'</span>;</div><div class="line"><span class="built_in">console</span>.log(person.name) <span class="comment">// Kevin</span></div></pre></td></tr></table></figure>
+<p>这里面Person为构造函数，person为实例对象。</p>
+<p>###prototype<br>先看个例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function Person() &#123;&#125;</div><div class="line">// 虽然写在注释里，但是你要注意：</div><div class="line">// prototype是函数才会有的属性</div><div class="line">Person.prototype.name = &apos;Kevin&apos;;</div><div class="line">var person1 = new Person();</div><div class="line">var person2 = new Person();</div><div class="line">console.log(person1.name) // Kevin</div><div class="line">console.log(person2.name) // Kevin</div></pre></td></tr></table></figure>
+<p>每个函数都有一个prototype属性，那该属性指向啥呢？当然是一个对象了，这个对象正是调用该构造函数而创建的实例的原型（见图理解），也就是这个例子中person1和person2的原型。（原型：每一个js对象创建的时候都有与之对应的另外一个对象，该对象就是原型，且每个对象都可以从原型“继承”属性）。<br>这里的继承：比如给Person的原型赋name属性，实例person1和person2就可以继承name属性</p>
+<h3 id="proto"><a href="#proto" class="headerlink" title="__proto__"></a>__proto__</h3><p>1.上面的构造函数Person可通过prototype指向原型，那实例化对象比如person1有没有办法指向原型呢？当然有了，看下面例子（建议用控制台试一下）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function Person() &#123;&#125;</div><div class="line">var person = new Person();</div><div class="line">console.log(person.__proto__ === Person.prototype); // true</div></pre></td></tr></table></figure>
+<p>这里可见实例化对象person通过__proto_<em>指向原型，除此之外，\</em>_proto__还有啥用呢？</p>
+<p>2.当读取实例属性时候，如果找不到，就去继承原型中的属性，如果还查不到？那咋整？当然是再去找原型的原型喽，知道找到最顶层为止。看下面的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">function Person() &#123;&#125;</div><div class="line"></div><div class="line">Person.prototype.name = &apos;Kevin&apos;;</div><div class="line"></div><div class="line">var person = new Person();</div><div class="line"></div><div class="line">person.name = &apos;Daisy&apos;;</div><div class="line">console.log(person.name) // Daisy</div><div class="line"></div><div class="line">delete person.name;</div><div class="line">console.log(person.name) // Kevin</div></pre></td></tr></table></figure>
+<p>这里面的首先给实例原型赋属性值name为“Kevin”，下面给实例化对象也赋属性name为“Daisy”，第一遍访问person的name属性时，值为“Daisy”，delete之后，实例化本身的name已经为空，所以再次访问的时候，就会往上一层寻找name属性，即通过prototype赋的name值，所以这时的值是“Kevin“。</p>
+<p>那这里原型的值是通过什么途径被实例化对象继承的呢？答案当然是__proto__属性喽（见图）</p>
+<p>那逆向思考一下，原型有没有途径指向构造函数和实例化对象呢？看下面</p>
+<p>###constructor<br>指向实例的倒是没有，但是有指向构造函数的，看下面例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">function Person() &#123;&#125;</div><div class="line">console.log(Person === Person.prototype.constructor); // true</div></pre></td></tr></table></figure>
+<p>显而意见，Person的prototype指向原型，原型的constructor指向Person（见图）</p>
+<p>综上：可见构造函数、实例化对象、原型之间的大致关系，现在说一下原型的原型：</p>
+<p>###原型的原型</p>
+<p>前面说到，如果实例化对象没有要被访问的属性，就从其原型身上找，那要是还找不到呢？前面我们已经讲了，原型也是对象啊，既然是对象，就可以用最原始的办法创建对象喽，看下面：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var obj = new Object();</div><div class="line">obj.name = &apos;Kevin&apos;</div><div class="line">console.log(obj.name) // Kevin</div></pre></td></tr></table></figure>
+<p>这里面可通过最原始的方法创建obj，表示的是不管你是什么玩意，只要类型是对象，都有一个原型与之对应。思考一下构造函数的原型的原型是怎么来的呢？当然是原始Object的原型了，再结合之前所讲，实例的__proto__指向构造函数的prototype，所以有Person.prototype通过__proto__指向其原型Object.prototype（见上图）</p>
+<p>###原型链<br>举一反三一下，Object.prototype的原型有么？理论上当然是有的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">console.log(Object.prototype.__proto__ === null) // true</div></pre></td></tr></table></figure>
+<p>什么意思呢？null表示什么呢？《javascript高级编程》的理解是这样的：</p>
+<blockquote>
+<p>null值表示一个空对象指针</p>
+<p>只要意在保存对象的变量，就应该明确地让变量保存null值，这样做可以提现null作为空指针的惯例</p>
+</blockquote>
+<p>通过这个我理解的是，null是一个对象，但是其值为空值，所以虽然理论上Object.prototype有原型，但也可以很粗暴的理解为Object.prototype”没有“原型（没办法，玄学js就是这么奇妙）</p>
+<p>那什么是原型链呢？就是通过__proto__传递属性的红色线（见图理解）</p>
+<p>###补充</p>
+<p>####constructor</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function Person() &#123;&#125;</div><div class="line">var person = new Person();</div><div class="line">console.log(person.constructor === Person); // true</div></pre></td></tr></table></figure>
+<p>person是没有constructor属性的，所以当不能读取该属性的时候怎么办？去原型找（这就是我们理解原型的目的啊），也就是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">person.constructor === Person.prototype.constructor</div></pre></td></tr></table></figure>
+<p>####继承or委托？<br>这里补充继承，引用《你不知道的JavaScript》中的话就是：</p>
+<blockquote>
+<p>继承意味着复制操作，然而 JavaScript 默认并不会复制对象的属性，相反，JavaScript 只是在两个对象之间创建一个关联，这样，一个对象就可以通过委托访问另一个对象的属性和函数，所以与其叫继承，委托的说法反而更准确些。</p>
+</blockquote>
+<p>####__proto__<br>这个属性其实不属于构造函数的原型，而是来自于Object.prototype</p>
+<p>###感悟<br>学习原型及原型链什么用呢？我理解就是要拓宽眼界，在学习React或者vue那些框架的时候，模块化思维很抽象有时让你很懵逼，为什么呢？因为各个组件间需要庞大的数据传输网，要是不能很好的理解继承（委托）的思想，要是不明白原型及原型链的概念很容易2333，比如刚开始写React组件开始有</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">class Add expends Component&#123;</div><div class="line">  constructor(props)&#123;</div><div class="line">    super(props)</div><div class="line">    this.state=&#123;&#125;</div><div class="line">  &#125;</div><div class="line">  ......</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>当时就不知道这里的constructor什么意思，对于数据网络也没有什么清晰的思路，</p>
+
       
     </div>
     <footer class="article-footer">

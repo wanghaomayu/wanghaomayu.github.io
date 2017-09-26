@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="前端小白羊">
 <meta property="og:description" content="###前言 有关于原型及原型链方面的知识，总能听见身边学习玄学js的同学朋友说起，经过学习讶羽的博客，今天简单谈一下这方面的理解。 ###注： 为了思路清晰，这里从构造函数并创建其对象、prototype、___proto___、constructor、实例与原型、原型的原型、原型链几方面来分析原型整体构思。首先看下面原型整体思维图，来逐步进行分析。 ###构造函数及创建对象 先用构造函数创建对象">
 <meta property="og:image" content="http://owu5yrdgy.bkt.clouddn.com/CCA9CC75-C468-41CA-824D-6A6C11A66370.png">
-<meta property="og:updated_time" content="2017-09-26T03:30:00.000Z">
+<meta property="og:updated_time" content="2017-09-26T03:32:35.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="js深入之原型及原型链">
 <meta name="twitter:description" content="###前言 有关于原型及原型链方面的知识，总能听见身边学习玄学js的同学朋友说起，经过学习讶羽的博客，今天简单谈一下这方面的理解。 ###注： 为了思路清晰，这里从构造函数并创建其对象、prototype、___proto___、constructor、实例与原型、原型的原型、原型链几方面来分析原型整体构思。首先看下面原型整体思维图，来逐步进行分析。 ###构造函数及创建对象 先用构造函数创建对象">
@@ -107,7 +107,7 @@
 <p>先看个例子</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function Person() &#123;&#125;</div><div class="line">// 虽然写在注释里，但是你要注意：</div><div class="line">// prototype是函数才会有的属性</div><div class="line">Person.prototype.name = &apos;Kevin&apos;;</div><div class="line">var person1 = new Person();</div><div class="line">var person2 = new Person();</div><div class="line">console.log(person1.name) // Kevin</div><div class="line">console.log(person2.name) // Kevin</div></pre></td></tr></table></figure>
 <p>每个函数都有一个prototype属性，那该属性指向啥呢？当然是一个对象了，这个对象正是调用该构造函数而创建的实例的原型（见图理解），也就是这个例子中person1和person2的原型。（原型：每一个js对象创建的时候都有与之对应的另外一个对象，该对象就是原型，且每个对象都可以从原型“继承”属性）。<br>这里的继承：比如给Person的原型赋name属性，实例person1和person2就可以继承name属性</p>
-<h3 id="proto"><a href="#proto" class="headerlink" title="__proto__"></a>__proto__</h3><p>1.上面的构造函数Person可通过prototype指向原型，那实例化对象比如person1有没有办法指向原型呢？当然有了，看下面例子（建议用控制台试一下）</p>
+<h3 id="proto"><a href="#proto" class="headerlink" title="proto"></a><strong>proto</strong></h3><p>1.上面的构造函数Person可通过prototype指向原型，那实例化对象比如person1有没有办法指向原型呢？当然有了，看下面例子（建议用控制台试一下）</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function Person() &#123;&#125;</div><div class="line">var person = new Person();</div><div class="line">console.log(person.__proto__ === Person.prototype); // true</div></pre></td></tr></table></figure>
 <p>这里可见实例化对象person通过__proto_<em>指向原型，除此之外，\</em>_proto__还有啥用呢？</p>
 <p>2.当读取实例属性时候，如果找不到，就去继承原型中的属性，如果还查不到？那咋整？当然是再去找原型的原型喽，知道找到最顶层为止。看下面的例子：</p>
@@ -142,7 +142,7 @@
 <blockquote>
 <p>继承意味着复制操作，然而 JavaScript 默认并不会复制对象的属性，相反，JavaScript 只是在两个对象之间创建一个关联，这样，一个对象就可以通过委托访问另一个对象的属性和函数，所以与其叫继承，委托的说法反而更准确些。</p>
 </blockquote>
-<h4 id="proto-1"><a href="#proto-1" class="headerlink" title="__proto__"></a>__proto__</h4><p>这个属性其实不属于构造函数的原型，而是来自于Object.prototype</p>
+<h4 id="proto-1"><a href="#proto-1" class="headerlink" title="proto"></a><strong>proto</strong></h4><p>这个属性其实不属于构造函数的原型，而是来自于Object.prototype</p>
 <p>###感悟</p>
 <p>学习原型及原型链什么用呢？我理解就是要拓宽眼界，在学习React或者vue那些框架的时候，模块化思维很抽象有时让你很懵逼，为什么呢？因为各个组件间需要庞大的数据传输网，要是不能很好的理解继承（委托）的思想，要是不明白原型及原型链的概念很容易2333，比如刚开始写React组件开始有</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">class Add expends Component&#123;</div><div class="line">  constructor(props)&#123;</div><div class="line">    super(props)</div><div class="line">    this.state=&#123;&#125;</div><div class="line">  &#125;</div><div class="line">  ......</div><div class="line">&#125;</div></pre></td></tr></table></figure>

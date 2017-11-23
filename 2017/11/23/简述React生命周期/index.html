@@ -6,17 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Category: js深入系列 | IT-FE</title>
+  <title>简述React生命周期 | IT-FE</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="跟着感觉走是永远不会错的">
-<meta property="og:type" content="website">
-<meta property="og:title" content="IT-FE">
-<meta property="og:url" content="http://yoursite.com/categories/js深入系列/index.html">
+  <meta name="description" content="一张ES6中的React生命周期与流程图 生命周期分为三个阶段进行管理—挂载(MOUNTING)、渲染(RECEIVE_PROPS)、卸载(UNMOUNTING)  对应的方法分别是：mountComponent、componentUpdate、unmountComponent,每个方法都提供了几种处理方法，其中带will前缀的方法在进入状态之前调用，带did的在进入状态之后调用  阶段一：MOU">
+<meta name="keywords" content="react深入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="简述React生命周期">
+<meta property="og:url" content="http://yoursite.com/2017/11/23/简述React生命周期/index.html">
 <meta property="og:site_name" content="IT-FE">
-<meta property="og:description" content="跟着感觉走是永远不会错的">
+<meta property="og:description" content="一张ES6中的React生命周期与流程图 生命周期分为三个阶段进行管理—挂载(MOUNTING)、渲染(RECEIVE_PROPS)、卸载(UNMOUNTING)  对应的方法分别是：mountComponent、componentUpdate、unmountComponent,每个方法都提供了几种处理方法，其中带will前缀的方法在进入状态之前调用，带did的在进入状态之后调用  阶段一：MOU">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/82d12951gy1fj405g3bdkj20z1152af1.jpg">
+<meta property="og:updated_time" content="2017-11-23T13:33:15.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="IT-FE">
-<meta name="twitter:description" content="跟着感觉走是永远不会错的">
+<meta name="twitter:title" content="简述React生命周期">
+<meta name="twitter:description" content="一张ES6中的React生命周期与流程图 生命周期分为三个阶段进行管理—挂载(MOUNTING)、渲染(RECEIVE_PROPS)、卸载(UNMOUNTING)  对应的方法分别是：mountComponent、componentUpdate、unmountComponent,每个方法都提供了几种处理方法，其中带will前缀的方法在进入状态之前调用，带did的在进入状态之后调用  阶段一：MOU">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/82d12951gy1fj405g3bdkj20z1152af1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="IT-FE" type="application/atom+xml">
   
@@ -148,71 +152,202 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-简述React生命周期" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/24/js深入之原型及原型链/" class="archive-article-date">
-  	<time datetime="2017-09-24T08:28:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-24</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/24/js深入之原型及原型链/">Js深入之原型及原型链</a>
+    <h1 class="article-title" itemprop="name">
+      简述React生命周期
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/11/23/简述React生命周期/" class="archive-article-date">
+  	<time datetime="2017-11-23T09:35:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="一张ES6中的React生命周期与流程图"><a href="#一张ES6中的React生命周期与流程图" class="headerlink" title="一张ES6中的React生命周期与流程图"></a>一张ES6中的React生命周期与流程图</h3><p><img src="https://ws1.sinaimg.cn/large/82d12951gy1fj405g3bdkj20z1152af1.jpg" alt=""></p>
+<h4 id="生命周期分为三个阶段进行管理—挂载-MOUNTING-、渲染-RECEIVE-PROPS-、卸载-UNMOUNTING"><a href="#生命周期分为三个阶段进行管理—挂载-MOUNTING-、渲染-RECEIVE-PROPS-、卸载-UNMOUNTING" class="headerlink" title="生命周期分为三个阶段进行管理—挂载(MOUNTING)、渲染(RECEIVE_PROPS)、卸载(UNMOUNTING)"></a>生命周期分为三个阶段进行管理—挂载(MOUNTING)、渲染(RECEIVE_PROPS)、卸载(UNMOUNTING)</h4><p>  对应的方法分别是：mountComponent、componentUpdate、unmountComponent,每个方法都提供了几种处理方法，其中带will前缀的方法在进入状态之前调用，带did的在进入状态之后调用</p>
+<ul>
+<li><p>阶段一：MOUNTING:</p>
+<ol>
+<li>constructor</li>
+<li>componentWillMount</li>
+<li>render</li>
+<li>componentDidMount</li>
+</ol>
+</li>
+<li><p>阶段二：RECEIVE_PROPS</p>
+<ol>
+<li>componentWillReceiveProps</li>
+<li>shouldComponentUpdate</li>
+<li>componentWillUpdate</li>
+<li>render</li>
+<li>componentDidUpdate</li>
+</ol>
+</li>
+<li><p>阶段三：UNMOUNTING</p>
+<ol>
+<li>componentWillUnmount</li>
+</ol>
+</li>
+</ul>
+<h4 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h4><ol>
+<li><p>在生命周期哪个方法里调用setState机制能触发render函数重新渲染？</p>
+<p> componentDidMount()、render()和componentDidUpdate()</p>
+</li>
+<li><p>shouldComponentUpdate作用是啥以及为何他这么重要？</p>
+<p> shouldComponentUpdate允许我们手动判断是否要进行组件更新，根据组件的应用场景设置函数的合理返回值能<br> 够帮助我们性能优化，避免不必要的更新。</p>
+</li>
+<li><p>禁止在shouldComponentUpdate和componentWillUpdate中调用setState，这样的话会造成循环调用，直至耗尽浏览器内存后崩溃</p>
+</li>
+</ol>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">js</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">react深入</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/js深入系列//" class="article-tag-list-link color2">js深入系列</a>
-        		</li>
-      		
-		</ul>
-	</div>
+      
 
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2017/11/23/简述React生命周期/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2017/11/19/什么是JSX/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">什么是JSX</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -235,10 +370,10 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
-		isCategory: true,
+		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
 		root: "/",

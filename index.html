@@ -150,6 +150,134 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-react核心之react-diff" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/02/react核心之react-diff/">React核心之react Diff</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/02/react核心之react-diff/" class="archive-article-date">
+  	<time datetime="2017-12-02T01:58:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>一提到React，学过的人都会想到提高性能的两大神奇特色：虚拟DOM &amp; diff算法。React diff作为Virtual DOM的加速器，其算法的改进优化是React整的界面渲染的基础，以及性能提高的保障。虽然开发中不需要知道其运行机制，但是理解之后有助于更好的理解React组件的生命周期，以及优化React程序。</p>
+<p><strong>React diff表示什么？表示React针对传统的diff算法进行了React风格的优化！</strong></p>
+<h3 id="传统diff算法"><a href="#传统diff算法" class="headerlink" title="传统diff算法"></a>传统diff算法</h3><blockquote>
+<p>计算一棵树形结构转换成另一棵树形结构的最少操作，是一个复杂且值得研究的问题。</p>
+</blockquote>
+<p>传统 diff 算法通过循环递归对节点进行依次对比，效率低下，算法复杂度达到 O(n^3)，其中 n 是树中节点的总数。O(n^3) 到底有多可怕，这意味着如果要展示1000个节点，就要依次执行上十亿次的比较。代价太高。</p>
+<p>如果 React 只是单纯的引入 diff 算法而没有任何的优化改进，那么其效率是远远无法满足前端渲染所要求的性能。</p>
+<p>因此，想要将 diff 思想引入 Virtual DOM，就需要设计一种稳定高效的 diff 算法，而 React 做到了！</p>
+<p>那么，React diff 到底是如何实现的呢？</p>
+<h3 id="React-diff优化"><a href="#React-diff优化" class="headerlink" title="React diff优化"></a>React diff优化</h3><p>传统的diff算法的复杂度为O(n^3),显然无法满足性能要求。Facebook工程师通过大胆的策略，将<strong>O(n^3)复杂度简化成了O(n)</strong>,怎么做到的呢？</p>
+<h4 id="diff策略"><a href="#diff策略" class="headerlink" title="diff策略"></a>diff策略</h4><ul>
+<li>Web UI 中 DOM 节点跨层级的移动操作特别少，可以忽略不计。</li>
+<li>拥有相同类的两个组件将会生成相似的树形结构，拥有不同类的两个组件将会生成不同的树形结构。</li>
+<li>对于同一层级的一组子节点，它们可以通过唯一 id 进行区分。</li>
+</ul>
+<p>基于以上三个前提策略，React团队对传统diff算法优化基于三个策略（《深入React技术栈》等讲的确实有点难理解且模糊，这边经过理解给出了自己的理解）</p>
+<ul>
+<li>a-&gt;tree diff</li>
+<li>b-&gt;component diff</li>
+<li>c-&gt;element diffd</li>
+</ul>
+<h4 id="优化策略a-tree-diff"><a href="#优化策略a-tree-diff" class="headerlink" title="优化策略a: tree diff"></a>优化策略a: tree diff</h4><p>基于tree diff策略，React对Virtual DOM树进行 <strong>分层比较、层级控制</strong>，只对相同颜色框内的节点进行比较(同一父节点的全部子节点)，当发现某一子节点不在了直接删除该节点以及其所有子节点，不会用于进一步的比较，在算法层面上就是说只需要遍历一次就可以了，而无需在进行不必要的比较，便能完成整个DOM树的比较。</p>
+<p>如图：</p>
+<p><img src="http://owu5yrdgy.bkt.clouddn.com/d.jpg" alt=""></p>
+<p>同属于<strong><em>分层比较、层级控制</em></strong>范畴，还会出现DOM节点跨层级的移动操作(React中这种情况DOM节点不稳定，损害性能，所以开发中不推荐这种情况的出现)，React diff怎么解决的呢？如下图情况：</p>
+<p><img src="http://owu5yrdgy.bkt.clouddn.com/DOM.png" alt=""></p>
+<p>上面描述的是同一层次不同DOM节点范畴，React diff用趋近于‘暴力’的方式，并不是把A B C 直接拼接到 D 节点上，而是删除A B C 三个节点之后在 D 下面在创建的 A B C。这里不做详细分析，想直观理解该过程，建议阅读<a href="http://www.jianshu.com/p/fa4ca1fed4cf" target="_blank" rel="external">这篇用在生命周期里打log的方式展示上述过程</a></p>
+<h4 id="优化策略b-component-diff"><a href="#优化策略b-component-diff" class="headerlink" title="优化策略b: component diff"></a>优化策略b: component diff</h4><p>React是基于组件构建应用的，对于组件间的比较所采用的策略也是简洁高效。</p>
+<ul>
+<li>对于同一类型的组件，根据Virtual DOM是否变化也分两种，可以用shouldComponentUpdate()判断Virtual DOM是否发生了变化，若没有变化就不需要在进行diff，这样可以节省大量时间，若变化了，就对相关节点进行update</li>
+<li>对于非同一类的组件，则将该组件判断为 dirty component，从而替换整个组件下的所有子节点。</li>
+</ul>
+<p>如下图，当 component D 改变为 component G 时，即使这两个 component 结构相似，一旦 React 判断 D 和 G 是不同类型的组件，就不会比较二者的结构，而是直接删除 component D，重新创建 component G 以及其子节点。虽然当两个 component 是不同类型但结构相似时，React diff 会影响性能，但正如 React 官方博客所言：不同类型的 component 是很少存在相似 DOM tree 的机会，因此这种极端因素很难在实现开发过程中造成重大影响的。</p>
+<p><img src="http://owu5yrdgy.bkt.clouddn.com/c.jpg" alt=""></p>
+<p>而如果上图中左一中的D节点只是单纯的改变什么state，update就好了。</p>
+<h4 id="优化策略c-element-diff"><a href="#优化策略c-element-diff" class="headerlink" title="优化策略c: element diff"></a>优化策略c: element diff</h4><p>所有同一层级的子节点.他们都可以通过key来区分—–并遵循策略a、b。</p>
+<p><img src="http://owu5yrdgy.bkt.clouddn.com/f.jpg" alt=""></p>
+<p>没经过优化的算法，实现新老交替的方法是将A B C D全部删除之后，在新建B A D C，这样的实现方法显然很垃圾，React diff怎么优化呢？是通过为每一个节点添加key值标识。</p>
+<p>新老集合所包含的节点，如上图所示，新老集合进行 diff 差异化对比，通过 key 发现新老集合中的节点都是相同的节点，因此无需进行节点删除和创建，只需要将老集合中节点的位置进行移动，更新为新集合中节点的位置，此时 React 给出的 diff 结果为：B、D 不做任何操作，A、C 进行移动操作，即可。</p>
+<p>上述分析的是新老集合中存在相同节点但是位置不同，要是有新加入的节点且有旧节点需要删除呢？这里不再啰嗦，如下图：</p>
+<p><img src="http://owu5yrdgy.bkt.clouddn.com/g.jpg" alt=""></p>
+<p><strong>加了key的好处：</strong></p>
+<p>如果不加key，map遍历的时候控制台发出warn，既然是warn就说明不加也能实现遍历，但是是经过删除、创建、插入实现，这样的话损害性能可想而知，而加上key就可以有助于React diff算法结合Virtual DOM找到最合适的方式进行diff，最大限度的实现高效diff，即<strong>那里需要改变，就改变哪里！</strong></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>React 通过分层求异的策略，对 tree diff 进行算法优化；</li>
+<li>React 通过相同类生成相似树形结构，不同类生成不同树形结构的策略，对 component diff 进行算法优化；</li>
+<li>React 通过设置唯一 key的策略，对 element diff 进行算法优化；</li>
+<li>React 通过制定大胆的 diff 策略，将 O(n3) 复杂度的问题转换成 O(n) 复杂度的问题；</li>
+<li>建议，开发时保持稳定的DOM结构有助于性能的提示；</li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li>《深入React技术栈》</li>
+<li><a href="https://zhuanlan.zhihu.com/p/20346379?refer=purerender" target="_blank" rel="external">React 源码剖析系列 － 不可思议的 react diff</a></li>
+<li><a href="http://www.jianshu.com/p/fa4ca1fed4cf" target="_blank" rel="external">浅谈React diff算法与key</a></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">react</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/02/react核心之react-diff/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-简述React生命周期" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -725,7 +853,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">js</a>
+                <a href="javascript:void(0)" class="js-tag color1">react</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -738,6 +866,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">react深入</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">js</a>
               </li>
             
             <div class="clearfix"></div>

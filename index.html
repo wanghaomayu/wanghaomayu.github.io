@@ -156,6 +156,101 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-HTTP-GET-POST二者的区别？" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/10/HTTP-GET-POST二者的区别？/">HTTP | GET POST二者的区别？</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/10/HTTP-GET-POST二者的区别？/" class="archive-article-date">
+  	<time datetime="2017-12-10T10:20:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://upload-images.jianshu.io/upload_images/5219651-7c744cff9d8be1b4.jpg?imageMogr2/auto-orient/" alt=""></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>二者可以从使用上和本质上加以区分</p>
+<hr>
+<h3 id="1、使用上的区别"><a href="#1、使用上的区别" class="headerlink" title="1、使用上的区别"></a>1、使用上的区别</h3><blockquote>
+<ul>
+<li>GET使用URL和Cookie传参，POST使用body传参</li>
+<li>GET 方式提交的数据有长度限制，POST 的数据可以非常大</li>
+<li>POST比GET安全，因为POST传递数据在地址栏上看不见</li>
+</ul>
+</blockquote>
+<h3 id="GET使用URL和Cookie传参，POST使用body传参"><a href="#GET使用URL和Cookie传参，POST使用body传参" class="headerlink" title="GET使用URL和Cookie传参，POST使用body传参"></a>GET使用URL和Cookie传参，POST使用body传参</h3><p>在万维网世界中，<strong>TCP就像汽车</strong>，我们用TCP来运输数据，它很可靠，从来不会发生丢件少件的现象。但是如果路上跑的全是看起来一模一样的汽车，那这个世界看起来是一团混乱，送急件的汽车可能被前面满载货物的汽车拦堵在路上，整个交通系统一定会瘫痪。为了避免这种情况发生，<strong>交通规则HTTP</strong>诞生了。HTTP给汽车运输设定了好几个服务类别，有GET, POST, PUT, DELETE等等，HTTP规定，当执行GET请求的时候，要给汽车贴上<strong>GET的标签</strong>(设置method为GET)，而且要求把传送的数据放在<strong>车顶上(url中)</strong>以方便记录。如果是POST请求，就要在车上贴上<strong>POST的标签</strong>，并把货物<strong>放在车厢里</strong>。当然，你也可以在GET的时候往车厢内偷偷藏点货物，但是很不光彩;也可以在POST的时候在车顶上也放一些数据，让人觉得傻乎乎的。<strong><em>HTTP只是个行为准则，而TCP才是GET和POST怎么实现的基本。</em></strong></p>
+<p>我的理解：HTTP用法的约定(装货方式)产生的不同。</p>
+<hr>
+<h3 id="GET-方式提交的数据有长度限制，POST-的数据可以非常大"><a href="#GET-方式提交的数据有长度限制，POST-的数据可以非常大" class="headerlink" title="GET 方式提交的数据有长度限制，POST 的数据可以非常大"></a>GET 方式提交的数据有长度限制，POST 的数据可以非常大</h3><p>在万维网世界中，不同的<strong>浏览器</strong>(发起http请求)和<strong>服务器</strong>(接受http请求)就是不同的<strong>运输公司</strong>。 虽然理论上，你可以在车顶上无限的堆货物(url中无限加参数)。但是运输公司可不傻，装货和卸货也是有很大成本的，他们会限制单次运输量来控制风险，数据量太大对浏览器和服务器都是很大负担。业界不成文的<strong>规定</strong>是，<strong>(大多数)浏览器通常都会限制url长度在2K个字节，而(大多数)服务器最多处理64K大小的url</strong>。超过的部分，恕不处理。如果你用GET服务，在request body偷偷藏了数据，不同服务器的处理方式也是不同的，有些服务器会帮你卸货，读出数据，有些服务器直接忽略，所以，虽然GET可以带request body，也不能保证一定能被接收到。</p>
+<p>我的理解：这是因为操作系统和浏览器设置的不同引起的区别(快递公司设置的适合自身的规定)，也非本身的区别。</p>
+<hr>
+<h3 id="POST比GET更安全，因为POST传递数据在URL上看不见"><a href="#POST比GET更安全，因为POST传递数据在URL上看不见" class="headerlink" title="POST比GET更安全，因为POST传递数据在URL上看不见"></a>POST比GET更安全，因为POST传递数据在URL上看不见</h3><p>通过GET提交数据，用户名和密码将明文出现在URL上，因为登录页面有可能被浏览器缓存，其他人查看浏览器的历史纪录，那么别人就可以拿到你的账号和密码了，除此之外，使用GET提交数据还可能会造成Cross-site request forgery攻击。</p>
+<h3 id="2-本质上的区别"><a href="#2-本质上的区别" class="headerlink" title="2. 本质上的区别"></a>2. 本质上的区别</h3><p>GET请求是幂等性的，POST请求不是</p>
+<blockquote>
+<p>什么是幂等性？幂等性是指一次和多次请求某一个资源应该具有同样的副作用。简单来说意味着对同一URL的多个请求应该返回同样的结果。</p>
+</blockquote>
+<p>正因为它们有这样的区别，所以不应该且不能用get请求做数据的增删改这些有副作用的操作。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Http</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/10/HTTP-GET-POST二者的区别？/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-post提交数据的四种方式解析" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -176,7 +271,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
+        <p><img src="http://upload-images.jianshu.io/upload_images/5219651-7c744cff9d8be1b4.jpg?imageMogr2/auto-orient/" alt=""></p>
+<blockquote>
 <p>HTTP 协议是以 ASCII 码传输，建立在 TCP/IP 协议之上的应用层规范。HTTP 协议规定的 HTTP 请求方法有 GET、POST、PUT、DELETE、OPTIONS、HEAD、TRACE、CONNECT 这几种。其中 POST 一般用来向服务端提交数据，下面介绍 POST 提交数据的几种方式。</p>
 </blockquote>
 <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p> <em>POST 几种请求主要包括 application/x-www-form-urlencoded、 multipart/form-data、 application/json、text/xml 四种的方法。</em></p>
@@ -602,117 +698,6 @@
 
 
   
-    <article id="post-什么是JSX" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/19/什么是JSX/">什么是JSX</a>
-    </h1>
-  
-
-        
-        <a href="/2017/11/19/什么是JSX/" class="archive-article-date">
-  	<time datetime="2017-11-19T04:10:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我第一次接触JSX是在学习React的时候，当时乍一看语法觉得和js很像，在一看又觉得和HTML很像，后期有了项目经验之后确定jsx确实和那两位有关系。下面解释怎么个有关系法。</p>
-<h2 id="一-React组件的构成？"><a href="#一-React组件的构成？" class="headerlink" title="一. React组件的构成？"></a>一. React组件的构成？</h2><p>JSX和React有什么关系呢？简单说，<strong>JSX就是方便React使视图层（View层）组件化，承载了HTML构建页面的职责</strong>。这点可以看出React还是和其他Js模板语言有着异曲同工之秒的，不同的是React致力于通过创建和更新虚拟元素来管理整个虚拟DOM的(Virtual DOM)。</p>
-<p>那什么是虚拟元素呢，其实就是真实元素的对应，虚拟元素的创建和更新都是在内存中完成的，并不会渲染到真正DOM中。虚拟元素分为虚拟DOM和虚拟组件，对应的也就是原生DOM元素和自定义组件。</p>
-<hr>
-<p>接着，从DOM元素和自定义组件来解释：</p>
-<h4 id="1-DOM元素"><a href="#1-DOM元素" class="headerlink" title="1.DOM元素"></a>1.DOM元素</h4><p>一个很普通的标签：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;button class=&quot;btn btn-blue&quot;&gt;</div><div class="line">   &lt;em&gt;Confirm&lt;/em&gt;</div><div class="line">&lt;/button&gt;</div></pre></td></tr></table></figure>
-<p>上述button标签包含了元素的类型和属性，转换成JSON对象可以更清晰地看见包括元素的<strong>类型</strong>和<strong>属性</strong>，即，该标签是一个DOM元素：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  type: &apos;button&apos;,</div><div class="line">  props: &#123;</div><div class="line">    className: &apos;btn btn-blue&apos;,</div><div class="line">    children: &#123;</div><div class="line">      type: &apos;em&apos;,</div><div class="line">      props: &#123;</div><div class="line">        children: &apos;Confirm&apos;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="2-组件元素"><a href="#2-组件元素" class="headerlink" title="2.组件元素"></a>2.组件元素</h4><p>上面实例用自定义方法表示为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">const Button = (&#123;color,text&#125;) =&gt; &#123;</div><div class="line">  return (</div><div class="line">    type: &apos;button&apos;,</div><div class="line">    props: &#123;</div><div class="line">      className: `btn btn-$&#123;color&#125;`,</div><div class="line">      children: &#123;</div><div class="line">        type: &apos;em&apos;,</div><div class="line">        props: &#123;</div><div class="line">          children: text</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  )</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>该方法用JSON结构描述它为下述，也就是说组件方法的方法名对应了元素的类型，参数对应了元素的属性，满足了构造元素的两大必要条件（元素类型和元素属性），得出结论：自定义方法也是元素</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  type: Button,</div><div class="line">  props: &#123;</div><div class="line">    color: &apos;blue&apos;,</div><div class="line">    text: &apos;Confirm&apos;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>用了两个例子来说明一件事—-无论普通标签还是一个自定义组件方法，都可以用元素表示。这也是React核心思想之一：因为有公共的表达方法，我们可以让元素们层层嵌套或混合，这些层层嵌套的组件元素就是所谓的React组件，最终我们可以通过递归渲染的方式渲染出一整棵DOM树。</p>
-<h2 id="二-JSX由来"><a href="#二-JSX由来" class="headerlink" title="二. JSX由来"></a>二. JSX由来</h2><h4 id="构建一个复杂的React组件-还是一个Button组件吧"><a href="#构建一个复杂的React组件-还是一个Button组件吧" class="headerlink" title="构建一个复杂的React组件(还是一个Button组件吧)"></a>构建一个复杂的React组件(还是一个Button组件吧)</h4><p>(1).首先定义一个组件元素：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">const DanderButton = (&#123;text&#125;) =&gt; &#123;</div><div class="line">  type: Button,</div><div class="line">  props: &#123;</div><div class="line">    color: &apos;blue&apos;,</div><div class="line">    text: text</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>(2).用上面的组建继续封装一个新的组件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">const DeleteButton = () =&gt; &#123;</div><div class="line">  return (</div><div class="line">    type: &apos;div&apos;,</div><div class="line">    props: &#123;</div><div class="line">      children: [</div><div class="line">        &#123;</div><div class="line">          type: &apos;p&apos;,</div><div class="line">          props: &#123;</div><div class="line">            children: &apos;Are you sure?&apos;</div><div class="line">          &#125;</div><div class="line">        &#125;,&#123;</div><div class="line">          type: DanderButton,</div><div class="line">          props: &#123;</div><div class="line">            children: &apos;Confirm&apos;</div><div class="line">          &#125;</div><div class="line">        &#125;,&#123;</div><div class="line">          type: &apos;Button&apos;,</div><div class="line">          props: &#123;</div><div class="line">            color: &apos;blue&apos;,</div><div class="line">            children: &apos;Cancel&apos;</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      ]</div><div class="line">    &#125;</div><div class="line">  )</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这是一个比较简单的React组件的嵌套，DeleteButton组件清晰地表达了一个功能模块(最外侧div)、一段提示语、一个表示确认的按钮、一个表示取消的按钮，这么简单的功能都已经感觉到很繁琐了，那么如果用这种方式去编程，感觉会很糟糕，这时让我们想起了用HTML写页面的畅快，JSX写法应运而生。</p>
-<p>同样是上面的功能，看看JSX是怎么实现的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">const DeleteButton () =&gt; (</div><div class="line">  &lt;div&gt;</div><div class="line">    &lt;p&gt;Are you sure?&lt;/p&gt;</div><div class="line">    &lt;DanderButton&gt; Confirm &lt;/DanderButton&gt;</div><div class="line">    &lt;Buton color=&quot;blue&quot;&gt;Cancel&lt;/Buutton&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">);</div></pre></td></tr></table></figure>
-<p>可见：JSX是将HTML语法加入到Javascript代码中，再通过翻译器转换成纯Javascript后让浏览器执行。实际开发中打包阶段都已将编译成纯Javascript代码，所以不会带来任何副作用，反而让代码更加直观并且易于维护。</p>
-<p>现阶段为JSX语法解析的编译器基本上都在用Babel</p>
-<p>上述代码可以被Babel解析成React可以执行的代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">var DeleteButton = function DeleteButton () &#123;</div><div class="line">  return React.createElement(</div><div class="line">    &apos;div&apos;,</div><div class="line">    null,</div><div class="line">    React.createElement(</div><div class="line">      ...</div><div class="line">    ),</div><div class="line">    React.createElement(</div><div class="line">      ...</div><div class="line">    ),</div><div class="line">    React.createElement(</div><div class="line">      ...</div><div class="line">    )</div><div class="line">  )</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>可以看出，创建元素时候除了使用React.createElement创建之外，其结构与JSON一样。</p>
-<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>综合来看，JSX实质上就是为了方便React将View层组件化，通过将HTMl语法加到Javascript代码中，以承担构建页面的职责。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">react入门</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/react//" class="article-tag-list-link color1">react</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/19/什么是JSX/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -810,15 +795,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">js</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Http</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">React</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">js</a>
+                <a href="javascript:void(0)" class="js-tag color3">react入门</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -826,7 +811,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">react入门</a>
+                <a href="javascript:void(0)" class="js-tag color1">React</a>
               </li>
             
             <div class="clearfix"></div>

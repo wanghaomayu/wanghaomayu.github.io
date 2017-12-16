@@ -6,18 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>标签 | IT-FE</title>
+  <title>理解BFC | IT-FE</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="跟着感觉走永远不会错">
-<meta property="og:type" content="website">
-<meta property="og:title" content="标签">
-<meta property="og:url" content="http://yoursite.com/tags/index.html">
+  <meta name="description" content="什么是BFC 直译：块级格式化上下文 -&amp;gt; Block fomatting context = block-level box + Formatting Context    解释：BFC是一个独立的渲染区域，只有Block-level box参与，它规定了内部元素如何布局，并且与这个区域外部毫不相干。  BFC生成：CSS2.1中规定满足下列CSS声明之一的元素便会生成BFC  根元素 f">
+<meta name="keywords" content="css">
+<meta property="og:type" content="article">
+<meta property="og:title" content="理解BFC">
+<meta property="og:url" content="http://yoursite.com/2017/12/16/理解BFC/index.html">
 <meta property="og:site_name" content="IT-FE">
-<meta property="og:description" content="跟着感觉走永远不会错">
-<meta property="og:updated_time" content="2017-12-07T16:02:35.000Z">
+<meta property="og:description" content="什么是BFC 直译：块级格式化上下文 -&amp;gt; Block fomatting context = block-level box + Formatting Context    解释：BFC是一个独立的渲染区域，只有Block-level box参与，它规定了内部元素如何布局，并且与这个区域外部毫不相干。  BFC生成：CSS2.1中规定满足下列CSS声明之一的元素便会生成BFC  根元素 f">
+<meta property="og:image" content="http://owu5yrdgy.bkt.clouddn.com/a1.jpg">
+<meta property="og:image" content="http://owu5yrdgy.bkt.clouddn.com/a2.png">
+<meta property="og:image" content="http://owu5yrdgy.bkt.clouddn.com/a3.jpg">
+<meta property="og:image" content="http://owu5yrdgy.bkt.clouddn.com/a4.jpg">
+<meta property="og:image" content="https://github.com/zuopf769/notebook/raw/master/fe/BFC%E5%8E%9F%E7%90%86%E5%89%96%E6%9E%90/13.png">
+<meta property="og:image" content="https://github.com/zuopf769/notebook/raw/master/fe/BFC%E5%8E%9F%E7%90%86%E5%89%96%E6%9E%90/14.png">
+<meta property="og:image" content="https://github.com/zuopf769/notebook/raw/master/fe/BFC%E5%8E%9F%E7%90%86%E5%89%96%E6%9E%90/12.png">
+<meta property="og:updated_time" content="2017-12-16T14:35:08.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="标签">
-<meta name="twitter:description" content="跟着感觉走永远不会错">
+<meta name="twitter:title" content="理解BFC">
+<meta name="twitter:description" content="什么是BFC 直译：块级格式化上下文 -&amp;gt; Block fomatting context = block-level box + Formatting Context    解释：BFC是一个独立的渲染区域，只有Block-level box参与，它规定了内部元素如何布局，并且与这个区域外部毫不相干。  BFC生成：CSS2.1中规定满足下列CSS声明之一的元素便会生成BFC  根元素 f">
+<meta name="twitter:image" content="http://owu5yrdgy.bkt.clouddn.com/a1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="IT-FE" type="application/atom+xml">
   
@@ -155,27 +164,109 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="page-" class="article article-type-page " itemscope itemprop="blogPost">
+            <article id="post-理解BFC" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      标签
+      理解BFC
     </h1>
   
 
         
-        <a href="/tags/index.html" class="archive-article-date">
-  	<time datetime="2017-12-03T13:20:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-03</time>
+        <a href="/2017/12/16/理解BFC/" class="archive-article-date">
+  	<time datetime="2017-12-16T13:38:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-16</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h3 id="什么是BFC"><a href="#什么是BFC" class="headerlink" title="什么是BFC"></a>什么是BFC</h3><ul>
+<li><p>直译：块级格式化上下文 -&gt; <code>Block fomatting context</code> = <code>block-level box</code> + <code>Formatting Context</code>  </p>
+</li>
+<li><p>解释：BFC是一个独立的渲染区域，只有Block-level box参与，它规定了内部元素如何布局，并且与这个区域外部毫不相干。</p>
+</li>
+<li><p>BFC生成：CSS2.1中规定满足下列CSS声明之一的元素便会生成BFC</p>
+<ol>
+<li>根元素</li>
+<li>float的值不为none</li>
+<li>overflow的值不为visible(一般为hidden)</li>
+<li>display的值为inline-block、table-cell、table-caption</li>
+<li>position的值为absolute或fixed</li>
+</ol>
+</li>
+<li><p>BFC的约束条件</p>
+<ol>
+<li>内部的Box会在垂直方向上一个接一个的放置</li>
+<li>垂直方向上的距离由margin决定。（完整的说法是：属于同一个BFC的两个相邻Box的margin会发生重叠（塌陷），与方向无关。）</li>
+<li>每个元素的左外边距与包含块的左边界相接触（从左向右），即使浮动元素也是如此。（这说明BFC中子元素不会超出他的包含块，而position为absolute的元素可以超出他的包含块边界）</li>
+<li>BFC的区域不会与float的元素区域重叠</li>
+<li>计算BFC的高度时，浮动子元素也参与计算</li>
+<li>BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面元素，反之亦然</li>
+</ol>
+</li>
+</ul>
+<h3 id="BFC在布局中的应用"><a href="#BFC在布局中的应用" class="headerlink" title="BFC在布局中的应用"></a>BFC在布局中的应用</h3><ul>
+<li>防止margin重叠</li>
+</ul>
+<p>代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html lang=&quot;en&quot;&gt;</div><div class="line">&lt;head&gt;</div><div class="line">  &lt;meta charset=&quot;UTF-8&quot;&gt;</div><div class="line">  &lt;title&gt;BFC&lt;/title&gt;</div><div class="line">  &lt;style&gt;</div><div class="line">    p &#123;</div><div class="line">      color: blue;</div><div class="line">      background: #fcc;</div><div class="line">      width: 200px;</div><div class="line">      line-height: 100px;</div><div class="line">      text-align: center;</div><div class="line">      margin: 100px;</div><div class="line">    &#125;</div><div class="line">  &lt;/style&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">&lt;p&gt;hahaha&lt;/p&gt;</div><div class="line">&lt;p&gt;hehehe&lt;/p&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p>现象：两个p之间的距离为100px，发送了margin重叠（塌陷）</p>
+<p><img src="http://owu5yrdgy.bkt.clouddn.com/a1.jpg" alt=""></p>
+<p>解决：根据BFC布局规则第二条</p>
+<blockquote>
+<p>Box垂直方向的距离由margin决定。属于同一个BFC(上例中是body根元素的BFC)的两个相邻Box的margin会发生重叠</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html lang=&quot;en&quot;&gt;</div><div class="line">&lt;head&gt;</div><div class="line">  &lt;meta charset=&quot;UTF-8&quot;&gt;</div><div class="line">  &lt;title&gt;BFC&lt;/title&gt;</div><div class="line">  &lt;style&gt;</div><div class="line">    p &#123;</div><div class="line">      color: blue;</div><div class="line">      background: #fcc;</div><div class="line">      width: 200px;</div><div class="line">      line-height: 100px;</div><div class="line">      text-align: center;</div><div class="line">      margin: 100px;</div><div class="line">    &#125;</div><div class="line">    .xxx&#123;</div><div class="line">      overflow: hidden;</div><div class="line">    &#125;</div><div class="line">  &lt;/style&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">&lt;p&gt;hahaha&lt;/p&gt;</div><div class="line">&lt;div class=&quot;xxx&quot;&gt;&lt;p&gt;hehehe&lt;/p&gt;&lt;/div&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p>结果： </p>
+<p><img src="http://owu5yrdgy.bkt.clouddn.com/a2.png" alt=""></p>
+<ul>
+<li><p>清除内部浮动</p>
+<p>代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"> &lt;!DOCTYPE html&gt;</div><div class="line">&lt;html lang=&quot;en&quot;&gt;</div><div class="line">&lt;head&gt;</div><div class="line">  &lt;meta charset=&quot;UTF-8&quot;&gt;</div><div class="line">  &lt;title&gt;BFC清浮动原理&lt;/title&gt;</div><div class="line">  &lt;style type=&quot;text/css&quot;&gt;</div><div class="line">    .par &#123;</div><div class="line">      border: 5px solid #fcc;</div><div class="line">      width: 300px;</div><div class="line">      /*overflow: hidden;*/</div><div class="line">    &#125;</div><div class="line">    .child &#123;</div><div class="line">      border: 5px solid #fffb60;</div><div class="line">      float: left;</div><div class="line">      width: 100px;</div><div class="line">      height: 100px;</div><div class="line">    &#125;</div><div class="line">  &lt;/style&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">&lt;div class=&quot;par&quot;&gt;</div><div class="line">  &lt;div class=&quot;child&quot;&gt;&lt;/div&gt;</div><div class="line">  &lt;div class=&quot;child&quot;&gt;&lt;/div&gt;</div><div class="line">&lt;/div&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p>现象：</p>
+<p><img src="http://owu5yrdgy.bkt.clouddn.com/a3.jpg" alt=""></p>
+<p>解决：根据BFC布局规则第六条</p>
+<blockquote>
+<p>计算BFC的高度时，浮动元素也参与计算</p>
+</blockquote>
+<p>所以把par生成BFC，即把注释去掉</p>
+<p>结果：</p>
+<p><img src="http://owu5yrdgy.bkt.clouddn.com/a4.jpg" alt=""></p>
+</li>
+<li><p>自适应多栏布局</p>
+<p>代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">   &lt;style&gt;</div><div class="line">    body &#123;</div><div class="line">        width: 300px;</div><div class="line">        position: relative;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    .aside &#123;</div><div class="line">        width: 100px;</div><div class="line">        height: 150px;</div><div class="line">        float: left;</div><div class="line">        background: #f66;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    .main &#123;</div><div class="line">        height: 200px;</div><div class="line">        background: #fcc;</div><div class="line">    &#125;</div><div class="line">&lt;/style&gt;</div><div class="line">&lt;body&gt;</div><div class="line">    &lt;div class=&quot;aside&quot;&gt;&lt;/div&gt;</div><div class="line">    &lt;div class=&quot;main&quot;&gt;&lt;/div&gt;</div><div class="line">&lt;/body&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>   现象：</p>
+<p>   <img src="https://github.com/zuopf769/notebook/raw/master/fe/BFC%E5%8E%9F%E7%90%86%E5%89%96%E6%9E%90/13.png" alt=""></p>
+<p>   解决：根据BFC布局规则第四条</p>
+<blockquote>
+<p>BFC的区域不会与float box重叠。</p>
+</blockquote>
+<p>   那就让main生成BFC，这个新的BFC将不在于aside重叠</p>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">.main &#123;</div><div class="line">   overflow: hidden;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>  结果：</p>
+<p>  <img src="https://github.com/zuopf769/notebook/raw/master/fe/BFC%E5%8E%9F%E7%90%86%E5%89%96%E6%9E%90/14.png" alt=""></p>
+<ul>
+<li><p>自适应多栏布局</p>
+<p>类似前者,直接上图</p>
+<p><img src="https://github.com/zuopf769/notebook/raw/master/fe/BFC%E5%8E%9F%E7%90%86%E5%89%96%E6%9E%90/12.png" alt=""></p>
+<p>把中间元素生成BFC就可以了</p>
+</li>
+<li><p>总结</p>
+<p>上面的例子都体现了</p>
+<blockquote>
+<p>BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。反之也如此。</p>
+</blockquote>
+</li>
+</ul>
+<p> 参考：<a href="https://github.com/zuopf769/notebook/blob/master/fe/BFC%E5%8E%9F%E7%90%86%E5%89%96%E6%9E%90/README.md" target="_blank" rel="external">史上最全面、最透彻的BFC原理剖析</a></p>
+
       
 
       
@@ -183,6 +274,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">css</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -233,7 +335,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/tags/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2017/12/16/理解BFC/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -245,6 +347,16 @@
 </article>
 
   
+<nav id="article-nav">
+  
+  
+    <a href="/2017/12/10/padding补偿法实现两列等高/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">padding补偿法实现两列等高</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -295,7 +407,7 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

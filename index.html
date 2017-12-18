@@ -156,6 +156,126 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-浏览器中输入URL回车后" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/18/浏览器中输入URL回车后/">简述浏览器中输入URL回车后...</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/18/浏览器中输入URL回车后/" class="archive-article-date">
+  	<time datetime="2017-12-18T11:15:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>当我们想浏览某一个网页时，一般都会输入对应的URL，这个其实就是<em>请求对应资源</em>的过程。那么这个过程实质上经历了什么呢？</p>
+<h3 id="流程概述"><a href="#流程概述" class="headerlink" title="流程概述"></a>流程概述</h3><ol>
+<li>查找IP - 客户端根据域名查找对应的IP</li>
+<li>建立连接 - 客户端根据IP地址与服务器链接</li>
+<li>相互通信 - 客户端与资源服务器通信</li>
+<li>断开连接 - 客户端与资源服务器断开连接</li>
+</ol>
+<h3 id="具体流程详解"><a href="#具体流程详解" class="headerlink" title="具体流程详解"></a>具体流程详解</h3><p>1.查找IP</p>
+<ul>
+<li>浏览器搜索自己的 DNS 缓存，查找成功返回其对应 IP 地址，失败则进行下一步；</li>
+<li>搜索系统中的 DNS 缓存，查找成功返回其对应 IP 地址，失败则进行下一步；</li>
+<li>搜索系统中的 hosts 文件，查找成功返回其对应 IP 地址，失败则进行下一步；</li>
+<li>系统发送一个请求到路由器上，路由器查找其缓存，查找成功返回其对应 IP 地址，失败则进行下一步；</li>
+<li>系统将域名发送至 LDNS(本地域名服务器)，查找成功返回其对应 IP 地址，失     败则 LDNS 向 Root Name Server(根域名服务器)发起请求获得域的顶级域名 服务器地址，然后依次请求获得各级域名服务器地址，最后获得域名对应 IP 地址；</li>
+<li>LDNS 将 IP 地址返回给操作系统并缓存起来；</li>
+<li>系统将 IP 地址返回给浏览器并缓存起来；</li>
+<li>浏览器获得 IP 地址，发起建立连接的请求。</li>
+</ul>
+<p>2.建立连接 - 三次握手</p>
+<p>浏览器获取相应的IP之后，就会对目标服务器发起建立连接的请求，建立连接主要分三步，就是常说的三次握手：</p>
+<ul>
+<li>浏览器发送想和服务器建立连接的请求（你好，可以认识一下么？）</li>
+<li>服务器发送同意建立连接的响应（你好，当然可以啊！）</li>
+<li>浏览器向服务器发送确认受到响应的请求，并建立连接。（很高兴认识你。）</li>
+</ul>
+<p>3.相互通信</p>
+<p>建立连接之后，本次连接的主要目的来了，就是数据交互，这里主要说客户端请求数据</p>
+<ul>
+<li>客户端发送一个请求页面资源的请求</li>
+<li>服务器返回对应的资源</li>
+<li>客户端请求到相应的资源之后，进行页面渲染之类的活，可能会继续请求css、js等资源</li>
+</ul>
+<p>4.断开连接</p>
+<p>数据通信之后，要通过“四次挥手”断开连接</p>
+<ul>
+<li>浏览器向服务器发送想断开连接的请求 (我要走啦)；</li>
+<li>服务器向浏览器发送收到请求的响应 (我知道啦)；</li>
+<li>服务器向浏览器发送断开连接的请求；(可以了，我走啦)</li>
+<li>浏览器断开连接，并向服务器发送一个反馈请求，服务器收到后断开连接 (好的，拜拜)。</li>
+</ul>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>断开连接为为什么必须这么繁琐的四次挥手？</p>
+<p>主要是因为当客户端告诉服务器想断开连接的时候，服务器的数据不一定已处理完毕，所以服务器是先告诉客户端说已经收到了它想断开连接的请求，然后当服务器中数据处理完毕时，便断开请求并通知客户端，客户端收到后也断开请求并通知服务器。</p>
+<p>参考：<a href="https://juejin.im/post/59e2e928f265da430c10d996" target="_blank" rel="external">https://juejin.im/post/59e2e928f265da430c10d996</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">HTTP</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">浏览器</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/18/浏览器中输入URL回车后/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-理解BFC" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -591,94 +711,9 @@
 
 
   
-    <article id="post-JavaScript深入之词法作用域和动态作用域" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/07/JavaScript深入之词法作用域和动态作用域/">js深入之词法作用域和动态作用域</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/07/JavaScript深入之词法作用域和动态作用域/" class="archive-article-date">
-  	<time datetime="2017-12-07T13:56:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>jhgtvhugt</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">js</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/js深入系列//" class="article-tag-list-link color2">js深入系列</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/07/JavaScript深入之词法作用域和动态作用域/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 
@@ -781,11 +816,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">react入门</a>
+                <a href="javascript:void(0)" class="js-tag color1">React</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">React</a>
+                <a href="javascript:void(0)" class="js-tag color5">HTTP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">浏览器</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -794,6 +833,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">css</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">react入门</a>
               </li>
             
             <div class="clearfix"></div>

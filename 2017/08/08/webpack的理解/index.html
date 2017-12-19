@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>webpack的理解 | IT-FE</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="什么是webpack？ 相信所有接触过vue或react的朋友们都接触过脚手架，可能我们能想到脚手架？顾名思义呗，联想中国第一艘航母在大连造船厂被脚手架快速搭建，也就是说建造新产品的机器，没错！webpack就是为你的项目款速搭建的一款模块加载器兼打包工具，它能把各种资源，例如JS（含JSX）、coffee、样式（含less/sass）、图片等都作为模块来使用和处理。   我们可以直接使用 req">
+  <meta name="description" content="什么是webpack？ 相信所有接触过vue或react的朋友们都接触过脚手架，可能我们能想到脚手架？顾名思义呗，联想中国第一艘航母在大连造船厂被脚手架快速搭建，也就是说建造新产品的机器，没错！webpack就是为你的项目款速搭建的一款模块加载器兼打包工具，它能把各种资源，例如JS（含JSX）、coffee、样式（含less/sass）、图片等都作为模块来使用和处理。 我们可以直接使用 requi">
 <meta name="keywords" content="webpack">
 <meta property="og:type" content="article">
 <meta property="og:title" content="webpack的理解">
 <meta property="og:url" content="http://yoursite.com/2017/08/08/webpack的理解/index.html">
 <meta property="og:site_name" content="IT-FE">
-<meta property="og:description" content="什么是webpack？ 相信所有接触过vue或react的朋友们都接触过脚手架，可能我们能想到脚手架？顾名思义呗，联想中国第一艘航母在大连造船厂被脚手架快速搭建，也就是说建造新产品的机器，没错！webpack就是为你的项目款速搭建的一款模块加载器兼打包工具，它能把各种资源，例如JS（含JSX）、coffee、样式（含less/sass）、图片等都作为模块来使用和处理。   我们可以直接使用 req">
+<meta property="og:description" content="什么是webpack？ 相信所有接触过vue或react的朋友们都接触过脚手架，可能我们能想到脚手架？顾名思义呗，联想中国第一艘航母在大连造船厂被脚手架快速搭建，也就是说建造新产品的机器，没错！webpack就是为你的项目款速搭建的一款模块加载器兼打包工具，它能把各种资源，例如JS（含JSX）、coffee、样式（含less/sass）、图片等都作为模块来使用和处理。 我们可以直接使用 requi">
 <meta property="og:image" content="http://wiki.hrsoft.net/uploads/201707/5959157433c41_59591574.png">
-<meta property="og:updated_time" content="2017-11-19T07:03:42.000Z">
+<meta property="og:updated_time" content="2017-12-19T12:06:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="webpack的理解">
-<meta name="twitter:description" content="什么是webpack？ 相信所有接触过vue或react的朋友们都接触过脚手架，可能我们能想到脚手架？顾名思义呗，联想中国第一艘航母在大连造船厂被脚手架快速搭建，也就是说建造新产品的机器，没错！webpack就是为你的项目款速搭建的一款模块加载器兼打包工具，它能把各种资源，例如JS（含JSX）、coffee、样式（含less/sass）、图片等都作为模块来使用和处理。   我们可以直接使用 req">
+<meta name="twitter:description" content="什么是webpack？ 相信所有接触过vue或react的朋友们都接触过脚手架，可能我们能想到脚手架？顾名思义呗，联想中国第一艘航母在大连造船厂被脚手架快速搭建，也就是说建造新产品的机器，没错！webpack就是为你的项目款速搭建的一款模块加载器兼打包工具，它能把各种资源，例如JS（含JSX）、coffee、样式（含less/sass）、图片等都作为模块来使用和处理。 我们可以直接使用 requi">
 <meta name="twitter:image" content="http://wiki.hrsoft.net/uploads/201707/5959157433c41_59591574.png">
   
     <link rel="alternative" href="/atom.xml" title="IT-FE" type="application/atom+xml">
@@ -180,17 +180,9 @@
       
         <h1 id="什么是webpack？"><a href="#什么是webpack？" class="headerlink" title="什么是webpack？"></a><strong>什么是webpack？</strong></h1><ol>
 <li>相信所有接触过vue或react的朋友们都接触过脚手架，可能我们能想到脚手架？顾名思义呗，联想中国第一艘航母在大连造船厂被脚手架快速搭建，也就是说建造新产品的机器，没错！<strong>webpack</strong>就是为你的项目款速搭建的一款模块加载器兼打包工具，它能把各种资源，例如JS（含JSX）、coffee、样式（含less/sass）、图片等都作为模块来使用和处理。</li>
-</ol>
-<ol>
-<li><p>我们可以直接使用 require(XXX) 的形式来引入各模块，即使它们可能需要经过编译（比如JSX和sass），但我们无须在上面花费太多心思，因为 webpack 有着各种健全的加载器（loader）在默默处理这些事情</p>
-<p><img src="http://wiki.hrsoft.net/uploads/201707/5959157433c41_59591574.png" alt=""></p>
-<p>比如webpack模块就在<em>../node_modules/.bin/webpack.js</em> 地址</p>
-</li>
-</ol>
-<ol>
+<li>我们可以直接使用 require(XXX) 的形式来引入各模块，即使它们可能需要经过编译（比如JSX和sass），但我们无须在上面花费太多心思，因为 webpack 有着各种健全的加载器（loader）在默默处理这些事情<br><img src="http://wiki.hrsoft.net/uploads/201707/5959157433c41_59591574.png" alt=""><br>比如webpack模块地址就在 <em>../node_modules/.bin/webpack.js</em>  </li>
 <li>你可以不打算将其用在你的项目上，但没有理由不去掌握它，因为以近期 Github 上各大主流的（React相关）项目来说，它们仓库上所展示的示例已经是基于 webpack 来开发的，比如 React-Boostrap 和 Redux。webpack的官网是 <a href="http://webpack.github.io/" target="_blank" rel="external">http://webpack.github.io/</a> ，文档地址是 <a href="http://webpack.github.io/docs/" target="_blank" rel="external">http://webpack.github.io/docs/</a> ，想对其进行更详细了解的可以点进去瞧一瞧。</li>
 </ol>
-<hr>
 <h2 id="webpack-的优势"><a href="#webpack-的优势" class="headerlink" title="webpack 的优势"></a><strong>webpack 的优势</strong></h2><p>其优势主要可以归类为如下几个：</p>
 <ol>
 <li>webpack 是以 commonJS 的形式来书写脚本滴，但对 AMD/CMD 的支持也很全面，方便旧项目进行代码迁移。</li>
@@ -199,7 +191,7 @@
 <li>扩展性强，插件机制完善，特别是支持 React 热插拔（见 <a href="https://github.com/gaearon/react-hot-loader" title="react-hot-loader" target="_blank" rel="external">react-hot-loader</a> ）的功能让人眼前一亮。</li>
 </ol>
 <hr>
-<p>我们谈谈第一点。以 AMD/CMD 模式来说，鉴于模块是异步加载的，所以我们常规需要使用 define 函数来帮我们搞回调：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">define([<span class="string">'package/lib'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">lib</span>)</span>&#123;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        lib.log(<span class="string">'hello world!'</span>);</div><div class="line">    &#125; </div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        foo: foo</div><div class="line">    &#125;;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>第一点。以 AMD/CMD 模式来说，鉴于模块是异步加载的，所以我们常规需要使用 define 函数来帮我们搞回调：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">define([<span class="string">'package/lib'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">lib</span>)</span>&#123;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        lib.log(<span class="string">'hello world!'</span>);</div><div class="line">    &#125; </div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        foo: foo</div><div class="line">    &#125;;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
 <p>另外为了可以兼容 commonJS 的写法，我们也可以将 define 这么写：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">define(<span class="function"><span class="keyword">function</span> (<span class="params">require, exports, module</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> someModule = <span class="built_in">require</span>(<span class="string">"someModule"</span>);</div><div class="line">    <span class="keyword">var</span> anotherModule = <span class="built_in">require</span>(<span class="string">"anotherModule"</span>);    </div><div class="line"> </div><div class="line">    someModule.doTehAwesome();</div><div class="line">    anotherModule.doMoarAwesome();</div><div class="line"> </div><div class="line">    exports.asplode = <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</div><div class="line">        someModule.doTehAwesome();</div><div class="line">        anotherModule.doMoarAwesome();</div><div class="line">    &#125;;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
 <p>然而对 webpack 来说，我们可以直接在上面书写 commonJS 形式的语法，无须任何 define （毕竟最终模块都打包在一起，webpack 也会最终自动加上自己的加载器）：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> someModule = <span class="built_in">require</span>(<span class="string">"someModule"</span>);</div><div class="line">    <span class="keyword">var</span> anotherModule = <span class="built_in">require</span>(<span class="string">"anotherModule"</span>);    </div><div class="line"> </div><div class="line">    someModule.doTehAwesome();</div><div class="line">    anotherModule.doMoarAwesome();</div><div class="line"> </div><div class="line">    exports.asplode = <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</div><div class="line">        someModule.doTehAwesome();</div><div class="line">        anotherModule.doMoarAwesome();</div><div class="line"> &#125;;</div></pre></td></tr></table></figure></p>
 <p>这样的代码看起来简单又自然，可以和各种回调说拜拜啦</p>
@@ -467,15 +459,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">HTTP</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">浏览器</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">

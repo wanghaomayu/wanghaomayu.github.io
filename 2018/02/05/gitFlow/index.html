@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1753960-614a14e353ebc4ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1753960-d5f82672117e70b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1753960-930b924829011821.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
-<meta property="og:updated_time" content="2018-02-05T13:53:05.000Z">
+<meta property="og:updated_time" content="2018-02-05T13:56:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="gitFlow">
 <meta name="twitter:description" content="参考： Tutorails 廖雪峰git Git Flow工作流程  一.分支简述  蓝圆–主线(master) 紫圆–主分支(dev)（生产主线） 橙圆–新功能开发主线(feature) 绿圆–新版本发布线(release) 红圆–发布版本bug修复线(hotfix)  二.工作流程工作流基础 项目负责人创建dev分支供团队开发人员围绕它进行相关操作 12git branch devgit pu">
@@ -245,6 +245,13 @@
 <p>（4）打标签</p>
 <p>（5）合并到dev</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git checkout develop</div><div class="line">git merge issue-#001</div><div class="line">git push</div></pre></td></tr></table></figure>
+<p>三.小结</p>
+<ul>
+<li>master仅包含缩略版本，dev包含项目完整历史记录</li>
+<li>添加新功能都在dev上新生成分支feature进行操作，然后在合并回dev上</li>
+<li>版本：在dev上测试流程完成，源码趋于稳定时，在dev上创建一个release作为发布版本号（其实就是master和dev之间的一个缓冲）</li>
+<li>线上修bug：反馈出bug之后，在master基础上新建一个分支hotfix，在该hotfix上修好了在合并回master，并同步到dev</li>
+</ul>
 
       
 

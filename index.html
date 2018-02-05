@@ -156,6 +156,130 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-gitFlow" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/05/gitFlow/">gitFlow</a>
+    </h1>
+  
+
+        
+        <a href="/2018/02/05/gitFlow/" class="archive-article-date">
+  	<time datetime="2018-02-05T13:42:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><ul>
+<li><a href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow" target="_blank" rel="external">Tutorails</a></li>
+<li><a href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="external">廖雪峰git</a></li>
+<li><a href="https://www.jianshu.com/p/9a76e9aa9534" target="_blank" rel="external">Git Flow工作流程</a></li>
+</ul>
+<h3 id="一-分支简述"><a href="#一-分支简述" class="headerlink" title="一.分支简述"></a>一.分支简述</h3><p><img src="https://upload-images.jianshu.io/upload_images/1753960-fa724bc56d6eb19d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<ul>
+<li>蓝圆–主线(master)</li>
+<li>紫圆–主分支(dev)（生产主线）</li>
+<li>橙圆–新功能开发主线(feature)</li>
+<li>绿圆–新版本发布线(release)</li>
+<li>红圆–发布版本bug修复线(hotfix)</li>
+</ul>
+<h3 id="二-工作流程"><a href="#二-工作流程" class="headerlink" title="二.工作流程"></a>二.工作流程</h3><h5 id="工作流基础"><a href="#工作流基础" class="headerlink" title="工作流基础"></a>工作流基础</h5><p><img src="https://upload-images.jianshu.io/upload_images/1753960-9322225d36efe345.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<p>项目负责人创建dev分支供团队开发人员围绕它进行相关操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git branch dev</div><div class="line">git push -u origin dev</div></pre></td></tr></table></figure>
+<p>其他人clone，创建一个dev的<em>轨迹版本</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git clone git@github.orgXXXXXXXX</div><div class="line">git checkout -b dev origin/dev</div></pre></td></tr></table></figure>
+<p>dev这个分支将包含项目的完整历史记录，而master仅包含缩略版本。</p>
+<h5 id="新功能开发流程"><a href="#新功能开发流程" class="headerlink" title="新功能开发流程"></a>新功能开发流程</h5><p>1.新建feature分支</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1753960-6e86b4e0641072b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<p>在dev<em>基础上</em>创建新分支：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout -b feature/demo dev</div></pre></td></tr></table></figure>
+<p>推到远程，(然后这部分新功能代码就提交到这个上)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git push</div></pre></td></tr></table></figure>
+<p>所有开发此新功能的人员，都在这个分支上开发提交代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git status</div><div class="line">git add</div><div class="line">git commit -m &quot;Add some-file.&quot;</div></pre></td></tr></table></figure>
+<p>2.完成新功能开发（合并feature分支到dev上去）</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1753960-f7a8d85046147f87.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">git pull origin dev</div><div class="line">git checkout dev</div><div class="line">git merge feature/demo</div><div class="line">git push</div><div class="line">git branch -d feature/demo</div></pre></td></tr></table></figure>
+<p><strong>注意</strong></p>
+<ul>
+<li>新功能分支，永远不要直接在master上合并，要在dev上进行操作</li>
+<li>合并时做好冲突合并（webstrom可实现自动合并）</li>
+</ul>
+<p>3.测试环境发布dev分支代码（提交测试）</p>
+<h5 id="线上版本发布流程"><a href="#线上版本发布流程" class="headerlink" title="线上版本发布流程"></a>线上版本发布流程</h5><p>（1）从dev中创建发布的release分支</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1753960-614a14e353ebc4ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<p>当主测试流程完成，源码已经趋于稳定，准备一个发布版本（确立版本号）,并推到远程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git checkout -b release-1.0 dev</div><div class="line">git push</div></pre></td></tr></table></figure>
+<p>这个分支是清理准备发布、 整体回归测试、 更新文档，和做其他任何系统即将发布的事情。</p>
+<p>（2）开发交代码改bug</p>
+<p>（3）release分支合并到master和dev</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1753960-d5f82672117e70b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<p>一旦已经满足发布条件（或已经到了预定发布日期），应该把release分支合并到master分支和dev分支中，然后，使用master发布新版本。合并release分支到dev分支是很重要的，要让release上修改的东西能在后续的开发分支中生效。</p>
+<p>master</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git checkout master</div><div class="line">git merge release-1.0</div><div class="line">git push</div></pre></td></tr></table></figure>
+<p>dev</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git checkout develop</div><div class="line">git merge release-1.0</div><div class="line">git push</div><div class="line">git branch -d release-1.0</div></pre></td></tr></table></figure>
+<p>（4）打标签</p>
+<p>Release分支在功能开发分支（dev）和公共发布版（master）中，充当一个缓冲的作用。每当有源码合并到master中的时候，应该在master上打一个标签，以便后续跟踪查阅。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git tag -a 1.0.RELEASE -m &quot;Initial public release&quot; master</div><div class="line">git push --tags</div></pre></td></tr></table></figure>
+<h5 id="线上bug修复过程"><a href="#线上bug修复过程" class="headerlink" title="线上bug修复过程"></a>线上bug修复过程</h5><p>当用户反馈系统有bug，需从master基础上创建并维护hotfix新分支，解决完在合并回master</p>
+<p>（1）创建hotfix</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout -b issue-#001 master</div></pre></td></tr></table></figure>
+<p>（2）修复</p>
+<p>（3）完成后合并到master发布</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1753960-930b924829011821.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git checkout master</div><div class="line">git merge issue-#001</div><div class="line">git push</div></pre></td></tr></table></figure>
+<p>（4）打标签</p>
+<p>（5）合并到dev</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git checkout develop</div><div class="line">git merge issue-#001</div><div class="line">git push</div></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/02/05/gitFlow/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-浏览器中输入URL回车后" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -608,109 +732,6 @@
 
 
   
-    <article id="post-post提交数据的四种方式解析" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/10/post提交数据的四种方式解析/">post提交数据的四种方式解析</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/10/post提交数据的四种方式解析/" class="archive-article-date">
-  	<time datetime="2017-12-10T04:07:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="http://upload-images.jianshu.io/upload_images/5219651-7c744cff9d8be1b4.jpg?imageMogr2/auto-orient/" alt=""></p>
-<blockquote>
-<p>HTTP 协议是以 ASCII 码传输，建立在 TCP/IP 协议之上的应用层规范。HTTP 协议规定的 HTTP 请求方法有 GET、POST、PUT、DELETE、OPTIONS、HEAD、TRACE、CONNECT 这几种。其中 POST 一般用来向服务端提交数据，下面介绍 POST 提交数据的几种方式。</p>
-</blockquote>
-<h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p> <em>POST 几种请求主要包括 application/x-www-form-urlencoded、 multipart/form-data、 application/json、text/xml 四种的方法。</em></p>
-<p>服务端通常是根据请求头（Request Headers）中的 Content-Type 字段来获知请求中的消息主体是用何种方式编码，再对主体进行解析。</p>
-<p>POST 提交数据方案，包含了 Content-Type 和消息主体编码方式两部分。</p>
-<h2 id="1-application-x-www-form-urlencoded-默认常用"><a href="#1-application-x-www-form-urlencoded-默认常用" class="headerlink" title="1. application/x-www-form-urlencoded (默认常用)"></a>1. application/x-www-form-urlencoded (默认常用)</h2><p>最常见的 POST 提交数据的方式了浏览器的原生 <form> 表单，如果不设置Content-type属性，就会默认该方式提交数据，并且提交的数据按照 key1=val1&amp;key2=val2 的方式进行编码，key 和 val 都进行了 URL 转码。大部分服务端语言都对这种方式有很好的支持，例如 PHP 中，$_POST[‘title’] 可以获取到 title 的值，$_POST[‘sub’] 可以得到 sub 数组。(如下图)</form></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1899643-d1a1cb64a55b01c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
-<h2 id="2-multipart-form-data"><a href="#2-multipart-form-data" class="headerlink" title="2. multipart/form-data"></a>2. multipart/form-data</h2><p>令一个常见的 POST 数据提交的方式。<strong>我们使用表单上传文件时</strong>，必须让 <form> 表单的 enctyped等于 multipart/form-data。直接来看一个请求示例：</form></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1899643-06cfa10cc462d31e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
-<h2 id="3-application-json"><a href="#3-application-json" class="headerlink" title="3. application/json"></a>3. application/json</h2><p>application/json 这种方案，可以方便的<strong>提交复杂的结构化数据</strong>，这种POST提交方式越来越多，用来告诉服务端消息主体是序列化后的 JSON 字符串。</p>
-<p>由于JSON规范的流行，出了低版本的IE之外，各大浏览器都支持 JSON.stringify 将JSON数据字符串化（编码）传到服务器，还可以通过  JSON.parse 将字符串转化（解码）为JSON数据供前端渲染或者其他处理。（JSON 格式支持比键值对复杂得多的结构化数据）见下图：</p>
-<p><img src="http://owu5yrdgy.bkt.clouddn.com/%1Cz.jpeg" alt=""></p>
-<blockquote>
-<p>JSON.stringify 和 JSON.parse </p>
-</blockquote>
-<p><img src="http://upload-images.jianshu.io/upload_images/1899643-76c668dc4840ffab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
-<h2 id="4-text-xml"><a href="#4-text-xml" class="headerlink" title="4. text/xml"></a>4. text/xml</h2><p>现在基本不用</p>
-<hr>
-<h2 id="注："><a href="#注：" class="headerlink" title="注："></a>注：</h2><p>默认情况下，标准的跨域请求是不会发送cookie等用户认证凭据的，XMLHttpRequest 2的一个重要改进就是提供了对授信请求访问的支持。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var xhr = new XMLHttpRequest();</div><div class="line">xhr.open(&apos;POST&apos;, &apos;http://www.xxx.com/api&apos;);</div><div class="line">xhr.withCredentials = true;</div><div class="line">xhr.onload = onLoadHandler;</div><div class="line">xhr.send();</div></pre></td></tr></table></figure>
-<p><img src="http://upload-images.jianshu.io/upload_images/1899643-79a2a6b4c9faeef0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
-<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>POST方法的几种提交数据方式：</p>
-<ul>
-<li>application/x-www-form-urlencoded：如果不设置Content-type即为该方式，提交的数据按照 key1=val1&amp;key2=val2 的方式进行编码</li>
-<li>multipart/form-data：用于上传表单位文件时</li>
-<li>application/json：用于复杂数据传输，通过JSON优势进行编码解码。</li>
-<li>text/xml：基本上不用</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Http</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/10/post提交数据的四种方式解析/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -725,7 +746,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2017 浩小生
+    		&copy; 2018 浩小生
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -808,19 +829,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Http</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">js</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">React</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+                <a href="javascript:void(0)" class="js-tag color5">Http</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -832,11 +845,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">react入门</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">css</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">react入门</a>
+                <a href="javascript:void(0)" class="js-tag color1">React</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
             
             <div class="clearfix"></div>
